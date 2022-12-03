@@ -2,23 +2,24 @@ package model
 
 import "reflect"
 
-type MonetaryUnit int
-
-const (
-	Dollar MonetaryUnit = iota
-	Franc
-)
-
 type Money struct {
 	amount       int
-	monetaryUnit MonetaryUnit
+	monetaryUnit string
+}
+
+func NewDollar(amount int) *Money {
+	return &Money{amount: amount, monetaryUnit: "USD"}
+}
+
+func NewFranc(amount int) *Money {
+	return &Money{amount: amount, monetaryUnit: "CHF"}
 }
 
 func (m *Money) Amount() int {
 	return m.amount
 }
 
-func (m *Money) MonetaryUnit() MonetaryUnit {
+func (m *Money) MonetaryUnit() string {
 	return m.monetaryUnit
 }
 
