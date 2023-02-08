@@ -20,7 +20,12 @@ jobs:
           APP_NAME="${APP_DIR//-/_}"
           IMAGE_NAME="${APP_DIR//-/}"
           echo "app_dir=$APP_DIR" >> $GITHUB_ENV
+          echo "app_name=$APP_NAME" >> $GITHUB_ENV
+          echo "image_name=$IMAGE_NAME" >> $GITHUB_ENV
+
           
       - name: character-replacement-test
         run: |
           echo $APP_DIR
+          echo $APP_NAME
+          echo $IMAGE_NAME
