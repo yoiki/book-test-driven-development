@@ -14,9 +14,13 @@ jobs:
       matrix:
         app-dir: ["apple-store-connect-reporting"]
     steps:
+      - name: set-env
+        run: |
+          APP_DIR=${{ matrix.app-dir }}
+          APP_NAME="${APP_DIR//-/_}"
+          IMAGE_NAME="${APP_DIR//-/}"
+          echo "app_dir=$APP_DIR" >> $GITHUB_ENV
+          
       - name: character-replacement-test
         run: |
-          REPO=$GITHUB_REPOSITORY
-          DB_NAME="${REPO//-/_}"
-          echo $DB_NAME
-          echo ${${{ matrix.app-dir }}//-/_}
+          echo $APP_DIR
