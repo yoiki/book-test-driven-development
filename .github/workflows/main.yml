@@ -19,3 +19,4 @@ jobs:
           REPO=$GITHUB_REPOSITORY
           DB_NAME="${REPO//-/_}"
           echo $DB_NAME
+          echo ${${{ matrix.dockerfile-sufix }}//-/_}
