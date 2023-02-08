@@ -1,0 +1,21 @@
+name: main
+
+on:
+  workflow_dispatch:
+
+jobs:
+  upload-container-included-scripts:
+    runs-on: ubuntu-latest
+    environment: artifacts
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        app-dir: ["apple-store-connect-reporting"]
+    steps:
+      - name: character-replacement-test
+        run: |
+          REPO=$GITHUB_REPOSITORY
+          DB_NAME="${REPO//-/_}"
+          echo $DB_NAME
