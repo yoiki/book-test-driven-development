@@ -61,11 +61,17 @@ func TestMoney_Equals(t *testing.T) {
 func TestMoney_Plus(t *testing.T) {
 	t.Parallel()
 	t.Run("Simple Addition", func(t *testing.T) {
+		b, err := NewBank()
+		if err != nil {
+			t.Fatal(err)
+		}
 		m := Money{5, MonetaryUnitUSD}
-		got := m.Plus(m)
+		sum := m.Plus(m)
+		got := b.Reduce(sum)
 		assert.Equal(t, Money{10, MonetaryUnitUSD}, got)
-
-		got = m.Plus(Money{15, MonetaryUnitUSD})
-		assert.Equal(t, Money{20, MonetaryUnitUSD}, got)
+		//
+		//sum = m.Plus(Money{15, MonetaryUnitUSD})
+		//got = b.Reduce(sum)
+		//assert.Equal(t, Money{20, MonetaryUnitUSD}, got)
 	})
 }

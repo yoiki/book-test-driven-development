@@ -40,6 +40,18 @@ func (m Money) Equals(another Money) bool {
 	return reflect.DeepEqual(m, another)
 }
 
-func (m Money) Plus(another Money) Money {
-	return Money{m.amount + another.amount, m.MonetaryUnit()}
+func (m Money) Plus(another Money) Plus {
+	//return Money{m.amount + another.amount, m.MonetaryUnit()}
+	return Plus{}
+}
+
+type Expression interface {
+	Aggregate() Money
+}
+
+type Plus struct {
+}
+
+func (s Plus) Aggregate() Money {
+	return Money{}
 }
