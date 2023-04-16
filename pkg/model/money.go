@@ -4,24 +4,22 @@ import (
 	"reflect"
 )
 
+type Expression interface {
+	Reduce() Money
+}
+
 type Money struct {
 	amount       int
 	monetaryUnit MonetaryUnit
 }
 
-func NewMoney(amount int, unit MonetaryUnit) (Money, error) {
+func NewMoney(amount int, unit MonetaryUnit) Money {
 	m := Money{amount: amount, monetaryUnit: unit}
-	if err := m.validation(); err != nil {
-		return Money{}, err
-	}
-	return m, nil
+	return m
 }
 
-func (m Money) validation() error {
-	if err := m.monetaryUnit.validation(); err != nil {
-		return err
-	}
-	return nil
+func (m Money) Reduce() Money {
+	return m
 }
 
 func (m Money) Amount() int {
@@ -40,18 +38,20 @@ func (m Money) Equals(another Money) bool {
 	return reflect.DeepEqual(m, another)
 }
 
-func (m Money) Plus(another Money) Plus {
-	//return Money{m.amount + another.amount, m.MonetaryUnit()}
-	return Plus{}
+func (m Money) Plus(another Money, unit MonetaryUnit) Sum {
+	return NewSum(m, another, unit)
 }
 
-type Expression interface {
-	Aggregate() Money
+type Sum struct {
+	augend Money
+	addend Money
+	unit   MonetaryUnit
 }
 
-type Plus struct {
+func NewSum(augend Money, addend Money, unit MonetaryUnit) Sum {
+	return Sum{augend: augend, addend: addend, unit: unit}
 }
 
-func (s Plus) Aggregate() Money {
-	return Money{}
+func (s Sum) Reduce() Money {
+	return NewMoney(s.augend.Amount()+s.addend.Amount(), s.unit)
 }
